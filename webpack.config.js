@@ -9,7 +9,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 exclude: /(node_modules|bower_components)/,
-                use: 'ts-loader',
+                use: "ts-loader"
             },
         ],
     },

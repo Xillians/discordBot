@@ -1,6 +1,3 @@
-#config file
-Config.json
-
 #Dependency directories
 node_modules/
 
@@ -10,5 +7,8 @@ node_modules/
 #lib directory bblocked if it is used
 lib/
 
-#Bundled file
-App.js
+#public folder
+public/
+
+#environment keys
+.env
