@@ -5,25 +5,23 @@
   "main": "App.js",
   "scripts": {
     "test": "test",
-    "build": "webpack",
-    "buildOnSave": "webpack --watch",
+    "build": "tsc",
+    "buildOnSave": "tsc --watch",
     "start": "node ./public/App.js",
-    "startOnSave": "forever -w ./public/App.js",
-    "installPackages": "npm install webpack --D && npm install discord.js --D && npm install forever --D"
+    "startOnSave": "forever -w ./public/App.js"
   },
   "author": "Xillians",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^12.11.1",
     "babel-loader": "^8.0.6",
-    "discord.js": "^11.5.1",
-    "forever": "^1.0.0",
-    "path": "^0.12.7",
     "ts-loader": "^6.2.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^2.1.5",
-    "webpack-node-externals": "^1.7.2"
+    "typescript": "^3.6.3"
   },
   "dependencies": {
-    "typescript": "^3.6.3"
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "forever": "^1.0.0",
+    "path": "^0.12.7"
   }
 }

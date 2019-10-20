@@ -12,3 +12,5 @@ lib/
 
 #Bundled file
 App.js
+
+dist
