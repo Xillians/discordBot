@@ -1,0 +1,14 @@
+#config file
+Config.json
+
+#Dependency directories
+node_modules/
+
+#Optional npm cache directory
+.npm
+
+#lib directory bblocked if it is used
+lib/
+
+#Bundled file
+App.js

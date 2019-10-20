@@ -1,0 +1,6 @@
+{
+    "clientID": "your client ID",
+    "clientSecret": "your client Secret",
+    "apiToken": "",
+    "loginToken": "your login token"
+}
