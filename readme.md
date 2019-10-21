@@ -1,4 +1,4 @@
-# nameToBeUpdated
+# littlebotfren
 
 ## Installation guide
 
@@ -40,4 +40,4 @@ npm run buildOnSave
 > you will need a __**config.json**__ file to run this. An example config is added, and you can find your own keys on clientID, secret, etc. on [Discord's website]
 
 
-[Discord's website]: <(https://discordapp.com/developers/applications/.)]># discordBot
+[Discord's website]: <(https://discordapp.com/developers/applications/.)]>
