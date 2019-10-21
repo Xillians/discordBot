@@ -1,1 +1,1 @@
-worker: ./public/App.js
+worker: node ./public/App.js

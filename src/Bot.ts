@@ -21,7 +21,7 @@ export namespace Bot {
             const commandToAdd: string = message.content.toLowerCase().split(" ")[1];
             if (!this.listOfCommands.includes(commandToAdd)) {
                 this.listOfCommands.push(commandToAdd);
-                await message.channel.send(`command ${commandToAdd} has been added.`);
+                await message.channel.send(`command **${commandToAdd}** has been added.`);
                 console.log(this.listOfCommands);
             }
         }
@@ -78,7 +78,7 @@ export namespace Bot {
                         name: name,
                         color: color
                     });
-                    await message.channel.send(`Role ${name} was created.`);
+                    await message.channel.send(`Role **${name}** was created.`);
                 }
                 else if (!color.match(hexadecimal))
                     await message.channel.send("Color has to be a hexadecimal value. \n Format is: #000000 - #FFFFFF \n You can use this website to find a specific color: <https://htmlcolorcodes.com>");
@@ -164,7 +164,7 @@ export namespace Bot {
                     colorOptions.push(role.name.substr(0, role.name.length - 'Color'.length));
             });
             
-            message.channel.send(`Viable options are: ${colorOptions}`);
+            message.channel.send(`Viable options are: \n > ${colorOptions}`);
         }
 
         private async printCommands(message: Discord.Message): Promise<void> {
@@ -177,7 +177,7 @@ export namespace Bot {
                     allCommands.push(command);
                 });
             }
-            await message.channel.send(`Available commands are: ${allCommands}`);
+            await message.channel.send(`Available commands are: \n > ${allCommands}`);
         }
 
         private async removeCommand(message: Discord.Message): Promise<void> {
@@ -185,7 +185,7 @@ export namespace Bot {
             if (this.listOfCommands.includes(commandToRemove)) {
                 const command = this.listOfCommands.indexOf(commandToRemove);
                 this.listOfCommands.splice(command, 1);
-                await message.channel.send(`command ${commandToRemove} has been removed.`);
+                await message.channel.send(`command **${commandToRemove}** has been removed.`);
                 console.log(this.listOfCommands);
             }
         }

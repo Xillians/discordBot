@@ -1,11 +1,11 @@
-# nameToBeUpdated
+# littlebotfren
 
 ## Installation guide
 
 * you must have node installed to run this bot locally.
 * You will also need other packages. To install these, run this command:
 ```sh
-npm run installPackages
+npm install
 ```
 
 ## Running the bot locally:
@@ -37,7 +37,7 @@ npm run build
 npm run buildOnSave
 ```
 
-> you will need a __**config.json**__ file to run this. An example config is added, and you can find your own keys on clientID, secret, etc. on [Discord's website]
+> You will need a .env file to run this locally. It requires a BOT_TOKEN value, which you can find on [Discord's website]
 
 
-[Discord's website]: <(https://discordapp.com/developers/applications/.)]># discordBot
+[Discord's website]: <(https://discordapp.com/developers/applications/)]>
