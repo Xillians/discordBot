@@ -40,4 +40,8 @@ npm run buildOnSave
 > You will need a .env file to run this locally. It requires a BOT_TOKEN value, which you can find on [Discord's website]
 
 
+<<<<<<< HEAD
 [Discord's website]: <(https://discordapp.com/developers/applications/)]>
+=======
+[Discord's website]: <(https://discordapp.com/developers/applications/.)>
+>>>>>>> c7683c90884de50e223cdb161a98fde91e9ada7e
