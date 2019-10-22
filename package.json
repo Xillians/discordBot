@@ -1,6 +1,6 @@
 {
   "name": "discordbot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "module": "commonjs",
   "description": "home built bot for discord integration.",
   "main": "App.js",
