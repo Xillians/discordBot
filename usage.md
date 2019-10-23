@@ -22,7 +22,8 @@ This bot has some automatic features and some features that trigger on a command
 * Granted that the respective color-role is available to the user, writing !color <color> will assign the user to said color-role.
 * What you call the color is up to you, as long as the name of the role ends with 'Color'.
 #### Example: 
-> redColor, blueColor, myColor.
+Role: "blueColor"
+> !color blue
 
 ### Colors 
 #### Required permissions : anyone
