@@ -8,7 +8,7 @@
     "test": "test",
     "build": "webpack",
     "buildOnSave": "webpack --watch",
-    "start": "webpack && node ./public/App.js",
+    "start": "node ./public/App.js",
     "startOnSave": "forever -w ./public/App.js"
   },
   "author": "Xillians",
