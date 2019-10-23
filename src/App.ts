@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import Discord from "discord.js";
 import { Bot } from "./Bot";
 import http from 'http';
@@ -6,9 +6,9 @@ import http from 'http';
 http.createServer().listen(process.env.PORT || 5000);
 dotenv.config();
 
-
 const discordClient = new Discord.Client();
-const botClient = new Bot.Client("!", ["color", "colors"]);
+if(!process.env.commandprefix) throw Error("no command prefix set!");
+    const botClient = new Bot.Client(process.env.commandprefix, ["color", "colors"]);
 
 discordClient.on("ready", () => {
     console.log("Connected!");

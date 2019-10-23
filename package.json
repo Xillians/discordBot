@@ -6,28 +6,24 @@
   "main": "App.js",
   "scripts": {
     "test": "test",
-    "build": "webpack",
-    "buildOnSave": "webpack --watch",
-    "start": "node ./public/App.js",
-    "startOnSave": "forever -w ./public/App.js"
+    "build": "tsc",
+    "buildOnSave": "tsc -watch",
+    "start": "node ./dist/App.js",
+    "startOnSave": "forever -w ./dist/App.js"
   },
   "author": "Xillians",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^12.11.1",
-    "babel-loader": "^8.0.6",
-    "standard-version": "^7.0.0",
-    "ts-loader": "^6.2.0",
-    "typescript": "^3.6.4",
-    "webpack-node-externals": "^1.7.2"
+    "@types/node": "^13.7.1",
+    "standard-version": "^7.1.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5"
   },
   "dependencies": {
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
-    "forever": "1.0.0",
-    "path": "^0.12.7",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "forever": "^2.0.0",
+    "path": "^0.12.7"
   },
   "engines": {
     "node": "^10.16.3",
