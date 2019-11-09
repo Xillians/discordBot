@@ -51,3 +51,9 @@ Role: "blueColor"
 * Syntax is !deleterole <name>
 #### Example:
 > !delete myRole
+
+### rainbow
+#### Required permissions: anyone
+* This creates a role for the user, changing the role's color every 3 seconds.
+#### Example:
+> !rainbow
