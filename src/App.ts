@@ -8,7 +8,7 @@ dotenv.config();
 
 
 const discordClient = new Discord.Client();
-const botClient = new Bot.Client("!", ["color", "colors"]);
+const botClient = new Bot.Client("!", ["color", "colors", "rainbow"]);
 
 discordClient.on("ready", () => {
     console.log("Connected!");

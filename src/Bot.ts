@@ -105,44 +105,51 @@ export namespace Bot {
             switch (commandKeyword) {
                 case "addcommand": {
                     if (message.member.hasPermission(['ADMINISTRATOR', 'BAN_MEMBERS']))
-                        this.addCommand(message);
+                        await this.addCommand(message);
                     else
-                        message.channel.send("Wait... that's illegal!");
+                        await message.channel.send("Wait... that's illegal!");
                     break;
                 }
                 case "color": {
                     if(message.member.hasPermission('SEND_MESSAGES'))
-                        this.changeColor(message);
+                        await this.changeColor(message);
                     else
-                        message.channel.send("Wait... how did we get here?"); // Seriously how would we even???
+                        await message.channel.send("Wait... how did we get here?"); // Seriously how would we even???
                     break;
                 }
                 case "colors": {
                     if(message.member.hasPermission('SEND_MESSAGES'))
-                        this.giveListOfColors(message);
+                        await this.giveListOfColors(message);
                     else
-                        message.channel.send("Wait... how did we get here?"); // Seriously how would we even???
+                        await message.channel.send("Wait... how did we get here?"); // Seriously how would we even???
                     break;
                 }
                 case "commands": {
                     if(message.member.hasPermission('SEND_MESSAGES'))
-                        this.printCommands(message);
+                        await this.printCommands(message);
                     else
-                        message.channel.send("Wait.. how did we get here?"); // Seriously how would we even????
+                        await message.channel.send("Wait.. how did we get here?"); // Seriously how would we even????
                     break;
                 }
                 case "createrole": {
                     if (message.member.hasPermission('MANAGE_ROLES'))
-                        this.createRole(message);
+                        await this.createRole(message);
                     else
-                        message.channel.send("Wait... that's illegal!"); // just for the memes, remove later.
+                        await message.channel.send("Wait... that's illegal!"); // just for the memes, remove later.
                     break;
                 }
                 case "deleterole": {
                     if (message.member.hasPermission('MANAGE_ROLES'))
-                        this.deleteRole(message);
+                        await this.deleteRole(message);
                     else
-                        message.channel.send("Wait... that's illegal!"); //just for the memes, remove later.
+                        await message.channel.send("Wait... that's illegal!"); //just for the memes, remove later.
+                    break;
+                }
+                case "rainbow": {
+                    if (message.member.hasPermission(["SEND_MESSAGES"]))
+                        await this.rainbow(message);
+                    else
+                        await message.channel.send("Wait... that's illegal!"); //just for the memes, remove later.
                     break;
                 }
                 case "removecommand": {
@@ -178,6 +185,36 @@ export namespace Bot {
                 });
             }
             await message.channel.send(`Available commands are: \n > ${allCommands}`);
+        }
+
+        private async rainbow(message: Discord.Message): Promise<string> {
+            return new Promise(async (resolve) => {
+                const username = message.member.user.username;
+                if(!message.guild.roles.find(role => role.name === username + "Color")) {
+                    console.log("role doesn't exist!");                    
+                    await message.guild.createRole({
+                        name: username + "Color",
+                        color: "#000000"
+                    });
+                }
+                var newRole = message.guild.roles.find(role => role.name === username + "Color");    
+                await message.member.addRole(newRole);
+                let count = 5;
+                var interval = setInterval(() => {
+                    var isRoleDeleted = message.guild.roles.find(role => role.name === username + "Color");    
+                    if(!isRoleDeleted) {
+                        resolve("Role is gone!")
+                        clearInterval(interval);
+                    }
+
+                    count = count+1;             
+                    let randomHex: string = (Math.floor(Math.random() * 16777216)).toString(16);
+                    let hexValue = "000000".substr(0, 6-randomHex.length) + randomHex;
+                    var newColor = `#${hexValue}`;       
+                    console.log("new color is: ", newColor);                                
+                    newRole.setColor(newColor);
+                }, 5000);
+            })
         }
 
         private async removeCommand(message: Discord.Message): Promise<void> {
