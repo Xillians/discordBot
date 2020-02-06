@@ -8,7 +8,10 @@ node_modules/
 lib/
 
 #public folder
-public/
+dist/
 
 #environment keys
 .env
+
+#vscode configs
+.vscode

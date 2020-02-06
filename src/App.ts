@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import Discord from "discord.js";
 import { Bot } from "./Bot";
 import http from 'http';
