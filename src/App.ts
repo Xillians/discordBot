@@ -7,7 +7,7 @@ http.createServer().listen(process.env.PORT || 5000);
 dotenv.config();
 
 const discordClient = new Discord.Client();
-if(!process.env.commandPrefix) throw Error("no command prefix set!");
+if(!process.env.commandprefix) throw Error("no command prefix set!");
 const botClient = new Bot.Client("process.env.commandPrefix", ["color", "colors"]);
 
 discordClient.on("ready", () => {
