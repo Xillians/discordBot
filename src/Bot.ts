@@ -6,7 +6,7 @@ export namespace Bot {
         private listOfCommands: string[];
         private readonly protectedCommands = ['addcommand', 'createrole', 'deleterole', 'commands', 'removecommand'];
 
-        constructor(commandPrefix: string, commands?: string[]) {
+        constructor(commandPrefix: string | undefined, commands?: string[]) {
             if (commandPrefix == undefined)
                 throw TypeError("client constructor: commandPrefix is not set!");
 
@@ -238,6 +238,7 @@ export namespace Bot {
         }
 
         public async tryCommand(message: Discord.Message): Promise<void> {
+            console.log("commandPrefix", this.commandPrefix);
             if (message == undefined)
                 throw TypeError("tryCommand: message is not set!");
 
