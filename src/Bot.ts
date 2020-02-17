@@ -238,7 +238,6 @@ export namespace Bot {
         }
 
         public async tryCommand(message: Discord.Message): Promise<void> {
-            console.log("commandPrefix", this.commandPrefix);
             if (message == undefined)
                 throw TypeError("tryCommand: message is not set!");
 
