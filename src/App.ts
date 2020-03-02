@@ -5,6 +5,7 @@ import http from 'http';
 
 http.createServer().listen(process.env.PORT || 5000);
 dotenv.config();
+console.assert(true === true);
 
 const discordClient = new Discord.Client();
 if(!process.env.commandprefix) throw Error("no command prefix set!");
