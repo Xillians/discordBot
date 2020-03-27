@@ -9,19 +9,31 @@ console.assert(true === true);
 
 const discordClient = new Discord.Client();
 if(!process.env.commandprefix) throw Error("no command prefix set!");
-    const botClient = new Bot.Client(process.env.commandprefix, ["color", "colors"]);
+let botClients: Bot.Client[] = [];
 
 discordClient.on("ready", () => {
     console.log("Connected!");
     console.log(`Logged in as ${discordClient.user.tag}!`);
+    const guilds = discordClient.guilds;
+    guilds.forEach(guild => {
+        const botClient = new Bot.Client(process.env.commandprefix, guild.name, ["color", "colors", "rainbow"]);
+        botClients.push(botClient);
+    });
 });
 
 discordClient.on("message", async message => {
-    await botClient.tryCommand(message);
+    const botClient = botClients.find( Client => Client.serverName === message.guild.name);
+    if(botClient) {
+        await botClient.tryCommand(message);
+    }
 });
 
 discordClient.on("presenceUpdate", newMember => {
-    botClient.verifyStreamingStatus(newMember);
+    const botClient = botClients.find( Client => Client.serverName === newMember.guild.name);
+    if(botClient) {
+        console.log(botClient.serverName);
+        botClient.verifyStreamingStatus(newMember);
+    }
 });
 
 discordClient.login(process.env.BOT_TOKEN);
