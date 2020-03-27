@@ -31,7 +31,6 @@ discordClient.on("message", async message => {
 discordClient.on("presenceUpdate", newMember => {
     const botClient = botClients.find( Client => Client.serverName === newMember.guild.name);
     if(botClient) {
-        console.log(botClient.serverName);
         botClient.verifyStreamingStatus(newMember);
     }
 });
