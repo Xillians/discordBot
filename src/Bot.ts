@@ -3,14 +3,24 @@ import Discord from 'discord.js';
 export namespace Bot {
     export class Client {
         private readonly commandPrefix: string;
+        public readonly serverName: string;
         private listOfCommands: string[];
-        private readonly protectedCommands = ['addcommand', 'createrole', 'deleterole', 'commands', 'removecommand'];
+        private readonly protectedCommands = [
+            'addcommand', 
+            'createrole', 
+            'deleterole', 
+            'commands', 
+            'removecommand'
+        ];
 
-        constructor(commandPrefix: string | undefined, commands?: string[]) {
+        constructor(commandPrefix: string | undefined, serverName: string, commands?: string[]) {
             if (commandPrefix == undefined)
                 throw TypeError("client constructor: commandPrefix is not set!");
+            if (serverName == undefined)
+                throw TypeError("client constructor: serverName is not set!");
 
             this.commandPrefix = commandPrefix;
+            this.serverName = serverName;
             if (commands)
                 this.listOfCommands = commands;
             else
@@ -177,14 +187,14 @@ export namespace Bot {
         private async printCommands(message: Discord.Message): Promise<void> {
             let allCommands: string[] = [];
             this.listOfCommands.forEach(command => {
-                allCommands.push(command);
+                allCommands.push("> " + command + "\n");
             });
             if (message.member.hasPermission(['ADMINISTRATOR', 'BAN_MEMBERS'])) {
                 this.protectedCommands.forEach(command => {
-                    allCommands.push(command);
+                    allCommands.push("> " + command + "\n");
                 });
             }
-            await message.channel.send(`Available commands are: \n > ${allCommands}`);
+            await message.channel.send(`Available commands are: \n ${allCommands.join("")}`);
         }
 
         private async rainbow(message: Discord.Message): Promise<string> {
@@ -199,20 +209,19 @@ export namespace Bot {
                 }
                 var newRole = message.guild.roles.find(role => role.name === username + "Color");    
                 await message.member.addRole(newRole);
-                let count = 5;
                 var interval = setInterval(() => {
-                    var isRoleDeleted = message.guild.roles.find(role => role.name === username + "Color");    
-                    if(!isRoleDeleted) {
-                        resolve("Role is gone!")
+                    var roleExists = message.guild.roles.find(role => role.name === username + "Color");
+                    if(!roleExists) {
+                        resolve("Role is gone!");
                         clearInterval(interval);
                     }
-
-                    count = count+1;             
-                    let randomHex: string = (Math.floor(Math.random() * 16777216)).toString(16);
-                    let hexValue = "000000".substr(0, 6-randomHex.length) + randomHex;
-                    var newColor = `#${hexValue}`;       
-                    console.log("new color is: ", newColor);                                
-                    newRole.setColor(newColor);
+                    else {
+                        let randomHex: string = (Math.floor(Math.random() * 16777216)).toString(16);
+                        let hexValue = "000000".substr(0, 6-randomHex.length) + randomHex;
+                        var newColor = `#${hexValue}`;       
+                        console.log("new color is: ", newColor);                                
+                        newRole.setColor(newColor);
+                    }
                 }, 5000);
             })
         }
