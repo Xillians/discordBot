@@ -14,15 +14,13 @@
   "author": "Xillians",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^13.7.1",
-    "standard-version": "^7.1.0",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.7.5"
+    "@types/node": "^13.9.4",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
-    "discord.js": "^11.5.1",
+    "discord.js": "^11.6.3",
     "dotenv": "^8.2.0",
-    "forever": "^2.0.0",
     "path": "^0.12.7"
   },
   "engines": {
