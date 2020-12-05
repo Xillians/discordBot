@@ -14,9 +14,9 @@
   "author": "Xillians",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^13.9.4",
+    "@types/node": "^13.13.34",
     "ts-loader": "^6.2.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "discord.js": "^11.6.3",
