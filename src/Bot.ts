@@ -60,11 +60,11 @@ export namespace Bot {
             const desiredColor: string = message.content.toLowerCase().split(" ")[1];
             if (this.findRole(message.member, `${desiredColor}Color`)) {
                 const user: Discord.GuildMember = message.member;
-                user.roles.forEach(role => {
+                user.roles.forEach(async role => {
                     const lowerCaseRoleName = role.name.toLowerCase();
                     const userHasRole = this.userHasRole(user, role)
                     if (lowerCaseRoleName.includes('color') && userHasRole) {
-                        this.removeRole(user, role);
+                        await this.removeRole(user, role);
                     }
                 });
                 await this.addRole(user, `${desiredColor}Color`);
