@@ -42,11 +42,15 @@ export namespace Bot {
             if (desiredRole == undefined)
                 throw TypeError("addRoleToUser: desiredRole is not defined");
 
-            const newRole = member.guild.roles.find(role => role.name === desiredRole);
+            const newRole = this.findRole(member, desiredRole);
             const username = member.user.username
             if (newRole != undefined) {
-                await member.addRole(newRole);
-                console.log(`Added role: ${newRole} to user ${username}`);
+                try {
+                    await member.addRole(newRole);
+                    console.log(`Added role: ${newRole} to user ${username}`);   
+                } catch (error) {
+                    console.log(`Failed to add role ${newRole} to user ${username}`);
+                }
             }
             else
                 console.log(`Failed to find role ${desiredRole}`);
@@ -54,11 +58,14 @@ export namespace Bot {
 
         private async changeColor(message: Discord.Message): Promise<void> {
             const desiredColor: string = message.content.toLowerCase().split(" ")[1];
-            if (message.member.guild.roles.find(role => role.name === `${desiredColor}Color`)) {
+            if (this.findRole(message.member, `${desiredColor}Color`)) {
                 const user: Discord.GuildMember = message.member;
                 user.roles.forEach(role => {
-                    if (role.name.includes('Color'))
+                    const lowerCaseRoleName = role.name.toLowerCase();
+                    const userHasRole = this.userHasRole(user, role)
+                    if (lowerCaseRoleName.includes('color') && userHasRole) {
                         this.removeRole(user, role);
+                    }
                 });
                 await this.addRole(user, `${desiredColor}Color`);
             }
@@ -100,7 +107,7 @@ export namespace Bot {
             if (name == undefined)
                 message.channel.send("Role name wasn't given.");
             else {
-                const roleToDelete = message.guild.roles.find(role => role.name === name);
+                const roleToDelete = this.findRole(message.member, name);
                 if (roleToDelete != undefined) {
                     roleToDelete.delete();
                     await message.channel.send(`Deleted role: ${name}`);
@@ -177,11 +184,13 @@ export namespace Bot {
             let colorOptions: string[] = [];
 
             allRoles.forEach(role => {
-                if (role.name.includes('Color'))
-                    colorOptions.push(role.name.substr(0, role.name.length - 'Color'.length));
+                if (role.name.includes('Color')){
+                    const roleName = role.name.substr(0, role.name.length - 'Color'.length);
+                    colorOptions.push(`> ${roleName}\n`);
+                }   
             });
             
-            message.channel.send(`Viable options are: \n > ${colorOptions}`);
+            message.channel.send(`Viable options are: \n ${colorOptions.join("")}`);
         }
 
         private async printCommands(message: Discord.Message): Promise<void> {
@@ -194,23 +203,23 @@ export namespace Bot {
                     allCommands.push("> " + command + "\n");
                 });
             }
-            await message.channel.send(`Available commands are: \n ${allCommands.join("")}`);
+            await message.channel.send(`Available commands are: ${allCommands.join("")}`);
         }
 
         private async rainbow(message: Discord.Message): Promise<string> {
             return new Promise(async (resolve) => {
                 const username = message.member.user.username;
-                if(!message.guild.roles.find(role => role.name === username + "Color")) {
+                if(this.findRole(message.member, `${username + "Color"}`)) {
                     console.log("role doesn't exist!");                    
                     await message.guild.createRole({
                         name: username + "Color",
                         color: "#000000"
                     });
                 }
-                var newRole = message.guild.roles.find(role => role.name === username + "Color");    
+                var newRole = this.findRole(message.member, `${username + "Color"}`);    
                 await message.member.addRole(newRole);
                 var interval = setInterval(() => {
-                    var roleExists = message.guild.roles.find(role => role.name === username + "Color");
+                    var roleExists = this.findRole(message.member, `${username + "Color"}`);
                     if(!roleExists) {
                         resolve("Role is gone!");
                         clearInterval(interval);
@@ -242,8 +251,14 @@ export namespace Bot {
             if (role == undefined)
                 throw TypeError("removeRoleFromUser: role not defined");
 
-            console.log(`Removing role ${role.name} from ${member.user.username}.`);
-            member.removeRole(role);
+            try {
+                await member.removeRole(role);
+                console.log(`Removed role ${role.name} from ${member.user.username}.`);
+            } catch (error) {
+                console.log(`Failed to remove role ${role.name} from ${member.user.username}`);
+                console.log(error.message);
+                
+            }
         }
 
         public async tryCommand(message: Discord.Message): Promise<void> {
@@ -262,7 +277,7 @@ export namespace Bot {
             if (member == undefined)
                 throw TypeError("verifyStreamingStatus: member is not defined.");
 
-            const userHasLiveRole: Discord.Role = member.roles.find(role => role.name === 'live');
+            const userHasLiveRole: Discord.Role = this.findRole(member, 'live');
             const gameStatus: Discord.Game = member.user.presence.game;
             if (gameStatus === null && userHasLiveRole) {
                 console.log("game presence null: user should not have role: live.");
@@ -276,6 +291,16 @@ export namespace Bot {
                 else if (!streamingStatus && userHasLiveRole)
                     await this.removeRole(member, userHasLiveRole);
             }
+        }
+
+        private findRole(member: Discord.GuildMember, roleName: string): Discord.Role{
+            const role = member.guild.roles.find(role => role.name === roleName)
+            role ? console.log(`found role ${roleName}`) : console.log(`failed to find role ${roleName}`);
+            return role;
+        }
+ 
+        private userHasRole(member: Discord.GuildMember, role: Discord.Role): Boolean {
+            return member.roles.has(role.id);
         }
     }
 }
