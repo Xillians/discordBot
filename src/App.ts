@@ -16,7 +16,7 @@ discordClient.on("ready", () => {
     console.log(`Logged in as ${discordClient.user.tag}!`);
     const guilds = discordClient.guilds;
     guilds.forEach(guild => {
-        const botClient = new Bot.Client(process.env.commandprefix, guild.name, ["color", "colors", "rainbow"]);
+        const botClient = new Bot.Client(process.env.commandprefix, guild.name, ["color", "colors", "rainbow", "setlivename"]);
         botClients.push(botClient);
     });
 });

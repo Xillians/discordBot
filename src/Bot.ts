@@ -5,6 +5,7 @@ export namespace Bot {
         private readonly commandPrefix: string;
         public readonly serverName: string;
         private listOfCommands: string[];
+        private liveRoleName: string;
         private readonly protectedCommands = [
             'addcommand', 
             'createrole', 
@@ -25,6 +26,7 @@ export namespace Bot {
                 this.listOfCommands = commands;
             else
                 this.listOfCommands = [];
+            this.liveRoleName = "live";
         }
 
         private async addCommand(message: Discord.Message): Promise<void> {
@@ -176,6 +178,13 @@ export namespace Bot {
                         message.channel.send("Wait... that's illegal!"); //just for the memes, remove later.
                     break;
                 }
+                case "setlivename": {
+                    if (message.member.hasPermission(['ADMINISTRATOR', 'BAN_MEMBERS']))
+                        this.setLiveRoleName(message);
+                    else
+                        message.channel.send("Wait... that's illegal!"); //just for the memes, remove later.
+                    break;
+                }
             }
         }
         
@@ -261,6 +270,12 @@ export namespace Bot {
             }
         }
 
+        private setLiveRoleName(message: Discord.Message): void {
+            const name: string = message.content.split(" ")[1];
+            this.liveRoleName = name;
+            return;
+        }
+
         public async tryCommand(message: Discord.Message): Promise<void> {
             if (message == undefined)
                 throw TypeError("tryCommand: message is not set!");
@@ -277,7 +292,7 @@ export namespace Bot {
             if (member == undefined)
                 throw TypeError("verifyStreamingStatus: member is not defined.");
 
-            const userHasLiveRole: Discord.Role = this.findRole(member, 'live');
+            const userHasLiveRole: Discord.Role = this.findRole(member, this.liveRoleName);
             const gameStatus: Discord.Game = member.user.presence.game;
             if (gameStatus === null && userHasLiveRole) {
                 console.log("game presence null: user should not have role: live.");
@@ -287,14 +302,14 @@ export namespace Bot {
             if (gameStatus !== null) {
                 const streamingStatus: Boolean = gameStatus.streaming;
                 if (streamingStatus && !userHasLiveRole)
-                    await this.addRole(member, 'live');
+                    await this.addRole(member, this.liveRoleName);
                 else if (!streamingStatus && userHasLiveRole)
                     await this.removeRole(member, userHasLiveRole);
             }
         }
 
         private findRole(member: Discord.GuildMember, roleName: string): Discord.Role{
-            const role = member.guild.roles.find(role => role.name === roleName)
+            const role = member.guild.roles.find(role => role.name.toLocaleLowerCase() === roleName.toLowerCase())
             role ? console.log(`found role ${roleName}`) : console.log(`failed to find role ${roleName}`);
             return role;
         }
