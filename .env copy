@@ -1,0 +1,3 @@
+commandprefix = <whatever prefix you want to use with discord>
+bot_token = <your bot token, can be found on *insert URL here*>
+port = <your desired port>

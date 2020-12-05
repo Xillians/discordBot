@@ -8,7 +8,7 @@ dotenv.config();
 console.assert(true === true);
 
 const discordClient = new Discord.Client();
-if(!process.env.commandprefix) throw Error("no command prefix set!");
+if (!process.env.commandprefix) throw Error("no command prefix set!");
 let botClients: Bot.Client[] = [];
 
 discordClient.on("ready", () => {
@@ -22,15 +22,15 @@ discordClient.on("ready", () => {
 });
 
 discordClient.on("message", async message => {
-    const botClient = botClients.find( Client => Client.serverName === message.guild.name);
-    if(botClient) {
+    const botClient = botClients.find(Client => Client.serverName === message.guild.name);
+    if (botClient) {
         await botClient.tryCommand(message);
     }
 });
 
 discordClient.on("presenceUpdate", newMember => {
-    const botClient = botClients.find( Client => Client.serverName === newMember.guild.name);
-    if(botClient) {
+    const botClient = botClients.find(Client => Client.serverName === newMember.guild.name);
+    if (botClient) {
         botClient.verifyStreamingStatus(newMember);
     }
 });
