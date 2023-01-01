@@ -15,7 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^13.13.34",
-    "ts-loader": "^6.2.2",
+    "ts-loader": "^9.4.2",
     "typescript": "^3.9.7"
   },
   "dependencies": {
